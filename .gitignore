@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# System files
+.DS_Store
+
+# Workspace temp directories
+/tmp/coddy-workspaces/
+
+# Logs
+*.log
+
+# IDE files
+.vscode/
+.idea/
