@@ -20,7 +20,7 @@ Coddy is a Discord bot that orchestrates Claude CLI to automate coding tasks and
 ## Prerequisites
 
 - Node.js 18+
-- Claude CLI installed and configured
+- [Claude CLI](https://github.com/anthropics/claude-cli) installed and configured
 - Discord Bot with appropriate permissions
 - GitHub Personal Access Token
 
@@ -28,8 +28,9 @@ Coddy is a Discord bot that orchestrates Claude CLI to automate coding tasks and
 
 1. Clone this repository
 2. Install dependencies: `npm install`
-3. Copy `.env.example` to `.env` and fill in your tokens
-4. Run: `npm start`
+3. Install and configure Claude CLI
+4. Copy `.env.example` to `.env` and fill in your tokens
+5. Run: `npm start`
 
 ## Environment Variables
 
@@ -53,14 +54,37 @@ coddy/
 │   ├── claude/        # Claude CLI subprocess wrapper
 │   ├── github/        # GitHub API operations
 │   └── utils/         # Task store and logging utilities
+├── logs/              # Winston log files
 ├── package.json
 └── .env.example
 ```
+
+## Core Utilities (PR #2)
+
+### Logger (`src/utils/logger.js`)
+- Winston-based structured logging with console and file transports
+- Context-aware logging for bot events, task events, and Claude CLI operations
+- Automatic sanitization of sensitive data (tokens, keys)
+- Custom error classes: `ClaudeError`, `GitHubError`, `TaskError`
+
+### Task Store (`src/utils/taskStore.js`)
+- In-memory Map-based task management
+- Thread-safe operations for task lifecycle
+- Task states: pending, executing, waiting-approval, completed, rejected
+- Support for Discord thread tracking and user association
+
+### Claude CLI Wrapper (`src/claude/index.js`)
+- Subprocess management with streaming JSON parsing
+- Progress reporting with 300-character text limits
+- Comprehensive error handling and timeout management
+- Startup validation for Claude CLI installation
 
 ## Development
 
 - `npm start` - Start the bot
 - `npm run dev` - Start with file watching
+
+The bot validates Claude CLI installation and environment configuration at startup.
 
 ## License
 
